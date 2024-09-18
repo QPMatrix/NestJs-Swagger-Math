@@ -3,14 +3,17 @@
 /**
  * Service for handling arithmetic operations.
  *
+ * This function performs the specified arithmetic operation (add, subtract, multiply, divide)
+ * on the two numeric values provided in the request body.
+ *
  * @param {Object} body - The request body containing the numeric values for the operation.
  * @param {number} body.a - The first numeric value.
  * @param {number} body.b - The second numeric value.
  * @param {string} operation - The arithmetic operation to perform (add, subtract, multiply, divide).
  * @returns {Promise<Object>} - A promise that resolves to the result of the arithmetic operation.
  */
-exports.calculate = function (body, operation) {
-  return new Promise(function (resolve, reject) {
+exports.calculate = function(body, operation) {
+  return new Promise(function(resolve, reject) {
 
     // Destructure the input values 'a' and 'b' from the request body.
     const { a, b } = body;
@@ -50,5 +53,24 @@ exports.calculate = function (body, operation) {
 
     // Resolve the promise with the result of the arithmetic operation.
     resolve({ result });
+  });
+};
+
+/**
+ * Service for handling user login and generating a JWT token.
+ *
+ * This function mocks user authentication by returning a JWT token when called.
+ *
+ * @param {Object} body - The request body containing the login credentials.
+ * @returns {Promise<Object>} - A promise that resolves to the JWT token.
+ */
+exports.login = function(body) {
+  return new Promise(function(resolve) {
+    const token = {
+      "token": "your-jwt-token-here"
+    };
+
+    // Resolve the promise with the generated token.
+    resolve(token);
   });
 };
