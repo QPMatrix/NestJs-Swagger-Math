@@ -20,13 +20,13 @@ exports.calculate = function (body, operation) {
         // Input validation: Ensure both 'a' and 'b' are numbers.
         if (typeof a !== 'number' || typeof b !== 'number') {
             // Reject the promise if inputs are invalid, with an appropriate error message and status code.
-            return reject({message: "Invalid input. Both 'a' and 'b' must be numbers.", code: 400});
+            return reject({message: "Invalid input. Both 'a' and 'b' must be numbers.", status: 400});
         }
 
         // Additional validation: Prevent division by zero when performing a 'divide' operation.
         if (b === 0 && operation === 'divide') {
             // Reject the promise with an error message for invalid division by zero.
-            return reject({message: "Invalid input. Cannot divide by zero.", code: 400});
+            return reject({message: "Invalid input. Cannot divide by zero.", status: 400});
         }
 
         let result;
@@ -49,7 +49,7 @@ exports.calculate = function (body, operation) {
                 // If the operation is not one of the allowed values, reject the promise with an error message.
                 return reject({
                     message: "Invalid operation. Allowed values are 'add', 'subtract', 'multiply', 'divide'.",
-                    code: 400
+                    status: 400
                 });
         }
 
