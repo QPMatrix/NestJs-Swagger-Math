@@ -1,5 +1,5 @@
 'use strict';
-
+const jwt = require('jsonwebtoken');
 /**
  * Service for handling arithmetic operations.
  *

@@ -2,9 +2,10 @@
 
 const path = require('path');
 const http = require('http');
-
+const dotenv = require('dotenv');
+dotenv.config();
 const oas3Tools = require('oas3-tools');
-const serverPort = 8080;
+const serverPort = process.env.PORT;
 
 // swaggerRouter configuration
 const options = {
