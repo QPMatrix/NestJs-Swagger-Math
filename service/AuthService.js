@@ -18,6 +18,7 @@ const expiry = process.env.JWT_EXPIRATION;
  */
 exports.login = function (body) {
     return new Promise(function (resolve, reject) {
+
         const { username, password } = body;
 
 

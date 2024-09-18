@@ -5,6 +5,7 @@ info:
   version: 1.0.0
 servers:
   - url: /
+
 paths:
   /math/calculate:
     post:
@@ -34,7 +35,10 @@ paths:
           content:
             application/json:
               schema:
-                type: number
+                type: object
+                properties:
+                  result:
+                    type: number
         "400":
           description: Bad request (invalid input)
           content:
@@ -48,11 +52,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
         "403":
-          description: Forbidden
+          description: Forbidden (Invalid token or no token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         "500":
           description: Internal server error
       security:
-        - bearerAuth: []   # Apply JWT auth only to /math/calculate
+        - bearerAuth: []  # Use bearerAuth for JWT
       x-swagger-router-controller: MathController
 
   /auth/login:
@@ -91,6 +99,7 @@ paths:
         "500":
           description: Internal server error
       x-swagger-router-controller: AuthController
+
 components:
   schemas:
     math_calculate_body:
@@ -101,8 +110,10 @@ components:
       properties:
         a:
           type: number
+          description: "First number for the operation"
         b:
           type: number
+          description: "Second number for the operation"
 
     login_body:
       required:

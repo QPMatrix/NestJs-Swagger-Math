@@ -18,13 +18,9 @@ module.exports.login = function login(req, res, next) {
     // Call the AuthService to validate credentials and generate a JWT token.
     AuthService.login(body)
         .then(function(response) {
-            console.log('Login successful:', response);
-            // On success, send the JWT token in the response.
             utils.writeJson(res, response);
         })
         .catch(function(error) {
-            console.error('Error during login:', error);
-
             // Ensure status is handled correctly and fallback to 400 if not provided.
             const statusCode = error.status || 400;
             // On failure, send the error message and status code.

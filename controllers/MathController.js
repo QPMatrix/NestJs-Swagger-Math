@@ -2,7 +2,7 @@
 
 const utils = require('../utils/writer.js');
 const MathController = require('../service/MathService');
-
+const verifyToken = require('../middlewares/securityHandlers');
 /**
  * Controller to handle the arithmetic calculation request.
  *
@@ -15,8 +15,7 @@ const MathController = require('../service/MathService');
  * @param {Object} body - The request body containing the numbers to be used in the calculation.
  * @param {string} operation - The arithmetic operation to perform (provided via HTTP header).
  */
-module.exports.calculate = function calculate(req, res, next, body, operation) {
-    // Call the calculate method from the service with request body and operation.
+module.exports.calculate =  function calculate(req, res, next, body, operation) {
     MathController.calculate(body, operation)
         .then(function(response) {
             utils.writeJson(res, response);
