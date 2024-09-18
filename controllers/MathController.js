@@ -19,11 +19,12 @@ module.exports.calculate = function calculate(req, res, next, body, operation) {
     // Call the calculate method from the service with request body and operation.
     MathController.calculate(body, operation)
         .then(function(response) {
-            // On success, send the response containing the result using the utility function.
             utils.writeJson(res, response);
         })
-        .catch(function(response) {
-            // On failure, send the error response using the utility function.
-            utils.writeJson(res, response);
+        .catch(function(error) {
+            // Ensure status is handled correctly and fallback to 400 if not provided.
+            const statusCode = error.status || 400;
+            // On failure, send the error message and status code.
+            utils.writeJson(res, { message: error.message }, statusCode);
         });
 };
