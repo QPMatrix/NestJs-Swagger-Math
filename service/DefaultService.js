@@ -1,22 +1,54 @@
 'use strict';
 
-
 /**
- * Perform an arithmetic operation
+ * Service for handling arithmetic operations.
  *
- * body Math_calculate_body 
- * operation String The operation to be performed (add, subtract, multiply, divide)
- * returns BigDecimal
- **/
-exports.calculate = function(body,operation) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = 0.8008281904610115;
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
+ * @param {Object} body - The request body containing the numeric values for the operation.
+ * @param {number} body.a - The first numeric value.
+ * @param {number} body.b - The second numeric value.
+ * @param {string} operation - The arithmetic operation to perform (add, subtract, multiply, divide).
+ * @returns {Promise<Object>} - A promise that resolves to the result of the arithmetic operation.
+ */
+exports.calculate = function (body, operation) {
+  return new Promise(function (resolve, reject) {
 
+    // Destructure the input values 'a' and 'b' from the request body.
+    const { a, b } = body;
+
+    // Input validation: Ensure both 'a' and 'b' are numbers.
+    if (typeof a !== 'number' || typeof b !== 'number') {
+      // Reject the promise if inputs are invalid, with an appropriate error message and status code.
+      return reject({ message: "Invalid input. Both 'a' and 'b' must be numbers.", code: 400 });
+    }
+
+    // Additional validation: Prevent division by zero when performing a 'divide' operation.
+    if (b === 0 && operation === 'divide') {
+      // Reject the promise with an error message for invalid division by zero.
+      return reject({ message: "Invalid input. Cannot divide by zero.", code: 400 });
+    }
+
+    let result;
+
+    // Perform the arithmetic operation based on the value of 'operation'.
+    switch (operation.toLowerCase()) {
+      case 'add':
+        result = a + b;
+        break;
+      case 'subtract':
+        result = a - b;
+        break;
+      case 'multiply':
+        result = a * b;
+        break;
+      case 'divide':
+        result = a / b;
+        break;
+      default:
+        // If the operation is not one of the allowed values, reject the promise with an error message.
+        return reject({ message: "Invalid operation. Allowed values are 'add', 'subtract', 'multiply', 'divide'.", code: 400 });
+    }
+
+    // Resolve the promise with the result of the arithmetic operation.
+    resolve({ result });
+  });
+};

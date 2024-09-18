@@ -1,31 +1,31 @@
 openapi: 3.0.0
 info:
   title: Math API
-  description: API for performing arithmetic operations
+  description: API for performing arithmetic operations and user login for JWT authentication
   version: 1.0.0
 servers:
-- url: /
+  - url: /
 security:
-- bearerAuth: []
+  - bearerAuth: []
 paths:
   /math/calculate:
     post:
       summary: Perform an arithmetic operation
       operationId: calculate
       parameters:
-      - name: operation
-        in: header
-        description: "The operation to be performed (add, subtract, multiply, divide)"
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          enum:
-          - add
-          - subtract
-          - multiply
-          - divide
+        - name: operation
+          in: header
+          description: "The operation to be performed (add, subtract, multiply, divide)"
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            enum:
+              - add
+              - subtract
+              - multiply
+              - divide
       requestBody:
         content:
           application/json:
@@ -44,19 +44,61 @@ paths:
           description: Bad request
         "401":
           description: Unauthorized
+      security:
+        - bearerAuth: []
       x-swagger-router-controller: Default
+
+  /auth/login:
+    post:
+      summary: User login to obtain JWT token
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login_body'
+        required: true
+      responses:
+        "200":
+          description: Login successful, returns JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token
+        "400":
+          description: Invalid login credentials
+      x-swagger-router-controller: Auth
+
 components:
   schemas:
     math_calculate_body:
       required:
-      - a
-      - b
+        - a
+        - b
       type: object
       properties:
         a:
           type: number
         b:
           type: number
+
+    login_body:
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+          description: "User's username"
+        password:
+          type: string
+          description: "User's password"
+
   securitySchemes:
     bearerAuth:
       type: http
