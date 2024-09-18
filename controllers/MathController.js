@@ -2,7 +2,6 @@
 
 const utils = require('../utils/writer.js');
 const MathController = require('../service/MathService');
-const verifyToken = require('../middlewares/securityHandlers');
 /**
  * Controller to handle the arithmetic calculation request.
  *

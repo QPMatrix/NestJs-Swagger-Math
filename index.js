@@ -3,13 +3,11 @@
 // Import necessary modules for path resolution, HTTP server, environment variable management, and OpenAPI tools.
 const path = require('path');
 const http = require('http');
-const dotenv = require('dotenv'); // To load environment variables from .env file
-dotenv.config();
+const {port} = require('./config');
 const oas3Tools = require('oas3-tools'); // OpenAPI tools for routing and middleware management
 const securityHandlers = require('./middlewares/securityHandlers'); // Custom JWT security handlers
 
-// Set the port to listen on, defaulting to 3000 if not set in environment variables
-const serverPort = process.env.PORT || 3000;
+
 
 // Configuration for swaggerRouter
 const options = {
@@ -32,9 +30,9 @@ const app = expressAppConfig.getApp();
 
 // Start the server only if not running in a test environment
 if (process.env.NODE_ENV !== 'test') {
-    http.createServer(app).listen(serverPort, function () {
-        console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-        console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+    http.createServer(app).listen(port, function () {
+        console.log('Your server is listening on port %d (http://localhost:%d)', port, port);
+        console.log('Swagger-ui is available on http://localhost:%d/docs', port);
     });
 }
 

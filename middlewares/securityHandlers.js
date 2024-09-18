@@ -2,11 +2,9 @@
 
 // Import necessary modules for JWT verification and environment management
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-dotenv.config(); // Load environment variables from .env
-
+const {jwtSecret} = require('../config');
 // Extract the JWT secret key from environment variables
-const secretKey = process.env.JWT_SECRET;
+
 
 // Define the custom security handler for bearer authentication (JWT token validation)
 const securityHandlers = {
@@ -28,7 +26,7 @@ const securityHandlers = {
 
         try {
             // Verify the token using the secret key
-            const decoded = jwt.verify(token, secretKey);
+            const decoded = jwt.verify(token, jwtSecret);
             // Attach the decoded user data to the request object for future use
             req.user = decoded;
             return true; // Authorization succeeded

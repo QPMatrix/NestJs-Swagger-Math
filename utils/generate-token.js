@@ -1,11 +1,5 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-// Load environment variables from .env file
-dotenv.config();
-
-const secretKey = process.env.JWT_SECRET;
-const expiry = process.env.JWT_EXPIRATION || '1h';
+const {jwtSecret: secretKey, jwtExpiration: expiry} = require('../config');
 
 /**
  * Utility function to generate a valid JWT token.
