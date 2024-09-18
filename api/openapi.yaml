@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: Math API
+  description: API for performing arithmetic operations
+  version: 1.0.0
+servers:
+- url: /
+security:
+- bearerAuth: []
+paths:
+  /math/calculate:
+    post:
+      summary: Perform an arithmetic operation
+      operationId: calculate
+      parameters:
+      - name: operation
+        in: header
+        description: "The operation to be performed (add, subtract, multiply, divide)"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          enum:
+          - add
+          - subtract
+          - multiply
+          - divide
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/math_calculate_body'
+        required: true
+      responses:
+        "200":
+          description: Successfully returns the result
+          content:
+            application/json:
+              schema:
+                type: number
+                x-content-type: application/json
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    math_calculate_body:
+      required:
+      - a
+      - b
+      type: object
+      properties:
+        a:
+          type: number
+        b:
+          type: number
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
