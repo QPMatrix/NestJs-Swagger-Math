@@ -4,12 +4,7 @@ info:
   description: API for performing arithmetic operations and user login for JWT authentication
   version: 1.0.0
 servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/HASAN_7/calculator_api/1.0.0
   - url: /
-security:
-  - bearerAuth: []
 paths:
   /math/calculate:
     post:
@@ -20,8 +15,6 @@ paths:
           in: header
           description: "The operation to be performed (add, subtract, multiply, divide)"
           required: true
-          style: simple
-          explode: false
           schema:
             type: string
             enum:
@@ -42,13 +35,22 @@ paths:
             application/json:
               schema:
                 type: number
-                x-content-type: application/json
         "400":
-          description: Bad request
+          description: Bad request (invalid input)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        "500":
+          description: Internal server error
       security:
-        - bearerAuth: []
+        - bearerAuth: []   # Apply JWT auth only to /math/calculate
       x-swagger-router-controller: MathController
 
   /auth/login:
@@ -73,9 +75,20 @@ paths:
                     type: string
                     description: JWT token
         "400":
-          description: Invalid login credentials
+          description: Bad request (missing or invalid input)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        "401":
+          description: Unauthorized (invalid credentials)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        "500":
+          description: Internal server error
       x-swagger-router-controller: AuthController
-
 components:
   schemas:
     math_calculate_body:
@@ -101,6 +114,14 @@ components:
         password:
           type: string
           description: "User's password"
+
+    error_response:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
 
   securitySchemes:
     bearerAuth:
