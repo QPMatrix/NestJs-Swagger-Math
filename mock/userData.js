@@ -7,4 +7,5 @@ const userData = [
         username: 'user2',
         password: 'user2',
     }
-]
+];
+module.exports = userData;
