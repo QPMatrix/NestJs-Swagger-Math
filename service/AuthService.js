@@ -1,7 +1,8 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const userData = require('../mock/userData');  // Mock user data
-
+const dotenv = require('dotenv');
+dotenv.config();
 // JWT secret and expiry from environment variables
 const secretKey = process.env.JWT_SECRET;
 const expiry = process.env.JWT_EXPIRATION;
@@ -30,7 +31,7 @@ exports.login = function(body) {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ username: user.username }, secretKey, { expiresIn: expiry });
+        const token = jwt.sign({ username: user.username }, secretKey, { expiresIn: expiry }) ;
 
         // Resolve with token
         resolve({ token });
