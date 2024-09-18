@@ -47,6 +47,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
+        "403":
+          description: Forbidden
         "500":
           description: Internal server error
       security:
