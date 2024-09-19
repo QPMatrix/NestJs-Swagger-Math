@@ -19,7 +19,7 @@ const options = {
         apiSpec: path.join(__dirname, 'api/openapi.yaml'), // Path to the OpenAPI spec (YAML file)
         validateResponses: true, // Enable response validation based on the OpenAPI spec
         validateSecurity: {
-            handlers: securityHandlers, // Use the custom JWT validation handlers
+            handlers: securityHandlers, //Use the custom JWT validation handlers
         },
     },
 };

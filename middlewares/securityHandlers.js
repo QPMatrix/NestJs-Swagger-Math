@@ -30,8 +30,7 @@ const securityHandlers = {
             // Attach the decoded user data to the request object for future use
             req.user = decoded;
             return true; // Authorization succeeded
-        } catch (error) {
-            // If the token is invalid or expired, throw an error
+        } catch (error) {// If the token is invalid or expired, throw an error
             const err =  new Error('Invalid or expired token');
             err.status=403;
             throw err

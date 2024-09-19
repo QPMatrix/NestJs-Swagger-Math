@@ -47,4 +47,29 @@ describe('POST /auth/login', () => {
         expect(res.status).toBe(400);
         expect(res.body.message).toBe("request.body should have required property 'username', request.body should have required property 'password'");
     });
+
+    // Test for empty request body (invalid JSON)
+    test('should return 400 when request body is empty', async () => {
+        const res = await request(app)
+            .post('/auth/login')
+            .set('Content-Type', 'application/json')
+            .send("");
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe("request.body should have required property 'username', request.body should have required property 'password'");
+    });
+
+    // Test for incorrect Content-Type (415 Unsupported Media Type)
+    test('should return 415 when Content-Type is incorrect', async () => {
+        const res = await request(app)
+            .post('/auth/login')
+            .set('Content-Type', 'text/plain')  // Incorrect Content-Type
+            .send("username=user1&password=user1");  // Sent as plain text, not JSON
+        expect(res.status).toBe(415);
+        expect(res.body.message).toBe("unsupported media type text/plain");
+    });
+
+
+
+
+
 });
