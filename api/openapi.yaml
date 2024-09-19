@@ -39,6 +39,8 @@ paths:
                 properties:
                   result:
                     type: number
+                example:
+                    result: 10
         "400":
           description: Bad request (invalid input)
           content:
